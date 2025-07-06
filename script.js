@@ -109,57 +109,41 @@ function initNavigation() {
 
 // Hero Section Animations
 function initHeroAnimations() {
-    const heroTitle = document.querySelector('.hero-title');
+    const heroName = document.querySelector('.hero-name');
     const heroSubtitle = document.querySelector('.hero-subtitle');
-    const heroDescription = document.querySelector('.hero-description');
     const heroCta = document.querySelector('.hero-cta');
     const heroScroll = document.querySelector('.hero-scroll');
     
     // Timeline for hero animations
     const tl = gsap.timeline({ delay: 0.5 });
     
-    // Animate title lines one by one
-    tl.to('.hero-title .line-1', {
+    // Animate name with smooth reveal
+    tl.to(heroName, {
         opacity: 1,
-        duration: 0.8,
+        y: 0,
+        duration: 1.2,
         ease: "power2.out"
     })
-    .to('.hero-title .line-2', {
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out"
-    }, "-=0.3")
-    .to('.hero-title .line-3', {
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out"
-    }, "-=0.3")
     .to(heroSubtitle, {
         opacity: 1,
         y: 0,
         duration: 1,
         ease: "power2.out"
-    }, "-=0.2")
-    .to(heroDescription, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out"
-    }, "-=0.5")
+    }, "-=0.4")
     .to(heroCta, {
         opacity: 1,
         y: 0,
         duration: 1,
         ease: "power2.out"
-    }, "-=0.5")
+    }, "-=0.3")
     .to(heroScroll, {
         opacity: 1,
         duration: 0.8,
         ease: "power2.out"
-    }, "-=0.3");
+    }, "-=0.2");
     
     // Set initial positions
-    gsap.set([heroSubtitle, heroDescription, heroCta], { y: 30 });
+    gsap.set([heroName, heroSubtitle, heroCta], { y: 30 });
 }
 
 // Scroll-triggered Animations
@@ -231,25 +215,22 @@ function initScrollAnimations() {
         });
     });
     
-    // Stats counter animation
-    const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers.forEach(stat => {
-        const target = parseInt(stat.textContent);
-        gsap.fromTo(stat, {
-            textContent: 0
-        }, {
-            textContent: target,
-            duration: 2,
+    // About intro animation
+    const aboutIntro = document.querySelector('.about-intro');
+    if (aboutIntro) {
+        gsap.to(aboutIntro, {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
             ease: "power2.out",
-            snap: { textContent: 1 },
             scrollTrigger: {
-                trigger: stat,
+                trigger: aboutIntro,
                 start: "top 80%",
                 end: "bottom 20%",
                 toggleActions: "play none none reverse"
             }
         });
-    });
+    }
 }
 
 // Portfolio Tab Functionality
