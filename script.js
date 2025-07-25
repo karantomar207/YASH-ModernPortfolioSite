@@ -47,7 +47,8 @@ function initCustomCursor() {
         });
         
         // Hover effects for clickable elements
-        const hoverElements = document.querySelectorAll('a, button, .portfolio-item, .service-card, .nav-link, .tab-btn');
+        // IMPORTANT: Added '.lightbox-close' to ensure cursor hover works on the close button
+        const hoverElements = document.querySelectorAll('a, button, .portfolio-item, .service-card, .nav-link, .tab-btn, .lightbox-close');
         
         hoverElements.forEach(element => {
             element.addEventListener('mouseenter', function() {
@@ -64,7 +65,7 @@ function initCustomCursor() {
         // Hide custom cursor on touch devices
         customCursor.outer.style.display = 'none';
         customCursor.inner.style.display = 'none';
-        document.body.style.cursor = 'auto';
+        document.body.style.cursor = 'auto'; // Ensure native cursor is visible
     }
 }
 
@@ -154,16 +155,17 @@ function initScrollAnimations() {
     sections.forEach(section => {
         gsap.fromTo(section, {
             opacity: 0,
-            y: 50
+            y: 30,
+            scale: 0.9
         }, {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: 0.6,
             ease: "power2.out",
             scrollTrigger: {
-                trigger: section,
-                start: "top 80%",
-                end: "bottom 20%",
+                trigger: item,
+                start: "top 90%",
+                end: "bottom 10%",
                 toggleActions: "play none none reverse"
             }
         });
@@ -447,15 +449,25 @@ function initLightbox() {
     const lightbox = document.getElementById('lightbox');
     const lightboxClose = document.querySelector('.lightbox-close');
     const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxImg = document.getElementById('lightbox-img'); // Get the image element by its ID
     const viewBtns = document.querySelectorAll('.view-btn');
     
     // Open lightbox
     viewBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const title = this.dataset.title;
-            lightboxTitle.textContent = title;
+            const imageSrc = this.dataset.image; // Get the image source from data-image attribute
+
+            lightboxTitle.textContent = title; // Set the title
+            lightboxImg.src = imageSrc; // Set the image source dynamically
             lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Ensure custom cursor remains visible in lightbox (if on desktop)
+            if (window.matchMedia("(hover: hover)").matches) {
+                customCursor.outer.style.display = 'block';
+                customCursor.inner.style.display = 'block';
+            }
         });
     });
     
@@ -464,7 +476,7 @@ function initLightbox() {
     
     // Close lightbox when clicking outside
     lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
+        if (e.target === lightbox) { // Only close if clicking on the overlay, not the content
             closeLightbox();
         }
     });
@@ -478,7 +490,16 @@ function initLightbox() {
     
     function closeLightbox() {
         lightbox.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto'; // Re-enable background scrolling
+        
+        // Reset custom cursor display based on device after closing lightbox
+        if (window.matchMedia("(hover: hover)").matches) {
+            customCursor.outer.style.display = 'block';
+            customCursor.inner.style.display = 'block';
+        } else {
+            customCursor.outer.style.display = 'none';
+            customCursor.inner.style.display = 'none';
+        }
     }
 }
 

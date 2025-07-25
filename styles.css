@@ -15,7 +15,7 @@ body {
     color: #ffffff;
     line-height: 1.6;
     overflow-x: hidden;
-    cursor: none;
+    /* Removed 'cursor: none;' from here to ensure cursor visibility */
 }
 
 .container {
@@ -33,7 +33,7 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease-out;
     transform: translate(-50%, -50%);
 }
 
@@ -93,7 +93,6 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     color: #ffffff;
-    text-decoration: none;
     background: linear-gradient(135deg, #00a2ff, #0066cc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -120,7 +119,7 @@ body {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(135deg, #00a2ff, #0066cc);
+    background: linear-gradient(135deg, #c43e00, #0066cc);
     transition: width 0.3s ease;
 }
 
@@ -272,7 +271,7 @@ body {
 
 .hero-scroll {
     position: absolute;
-    bottom: 30px;
+    bottom: 54px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -319,7 +318,7 @@ body {
 .section-line {
     width: 80px;
     height: 3px;
-    background: linear-gradient(135deg, #00a2ff, #0066cc);
+    background: linear-gradient(135deg, #00a2ff, #cc0000);
     margin: 0 auto;
     position: relative;
 }
@@ -332,7 +331,7 @@ body {
     transform: translate(-50%, -50%);
     width: 10px;
     height: 10px;
-    background: #00a2ff;
+    background: #0cecff;
     border-radius: 50%;
 }
 
@@ -493,7 +492,7 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: 15px;
-    aspect-ratio: 4/3;
+    aspect-ratio: 4/3; /* Maintain aspect ratio */
 }
 
 .portfolio-image {
@@ -501,29 +500,22 @@ body {
     height: 100%;
     position: relative;
     overflow: hidden;
+    display: flex; /* Added flex for centering image */
+    align-items: center; /* Added flex for centering image */
+    justify-content: center; /* Added flex for centering image */
 }
 
-.placeholder-image {
+.portfolio-image img {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #888888;
-    transition: all 0.3s ease;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    transition: transform 0.3s ease;
 }
 
-.placeholder-image i {
-    font-size: 3rem;
-    margin-bottom: 10px;
+.portfolio-item:hover .portfolio-image img {
+    transform: scale(1.1); /* Zoom effect on hover */
 }
 
-.placeholder-image span {
-    font-size: 1.1rem;
-    font-weight: 500;
-}
 
 .portfolio-overlay {
     position: absolute;
@@ -541,10 +533,6 @@ body {
 
 .portfolio-item:hover .portfolio-overlay {
     opacity: 1;
-}
-
-.portfolio-item:hover .placeholder-image {
-    transform: scale(1.1);
 }
 
 .view-btn {
@@ -772,6 +760,10 @@ body {
     border-radius: 15px;
     overflow: hidden;
     border: 1px solid rgba(0, 162, 255, 0.3);
+    display: flex; /* Changed to flex for better image/title layout */
+    flex-direction: column; /* Stack image and title vertically */
+    align-items: center; /* Center content */
+    padding: 20px; /* Add some padding */
 }
 
 .lightbox-close {
@@ -798,34 +790,26 @@ body {
 
 .lightbox-image {
     width: 100%;
-    height: 100%;
-    min-height: 400px;
+    height: auto; /* Allow height to adjust based on image aspect ratio */
+    max-height: 80vh; /* Limit height to viewport height */
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 15px; /* Space between image and title */
 }
 
-.placeholder-image-large {
-    width: 100%;
-    height: 100%;
-    min-height: 400px;
-    background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #888888;
-    padding: 40px;
+.lightbox-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensures the whole image is visible without cropping */
+    display: block; /* Remove extra space below image */
 }
 
-.placeholder-image-large i {
-    font-size: 4rem;
-    margin-bottom: 20px;
-}
-
-.placeholder-image-large span {
+#lightbox-title {
+    color: #ffffff;
     font-size: 1.5rem;
-    font-weight: 500;
+    font-weight: 600;
+    text-align: center;
 }
 
 /* Responsive Design */
@@ -912,6 +896,10 @@ body {
 
     body {
         cursor: auto;
+    }
+
+    .lightbox-image {
+        max-height: 70vh; /* Adjust for smaller screens */
     }
 }
 
